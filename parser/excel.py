@@ -34,7 +34,7 @@ def create_xlsx(source, full_path):
                     column += 1
                 row += 1
 
-        logger.info(f'Start creating xlsx {full_path}')
+        logger.info(f'End creating xlsx {full_path}')
 
     except Exception as e:
         logger.error(f'Cant create xlsx {full_path}: {e} - {e.__class__.__name__}')
