@@ -12,4 +12,4 @@ if __name__ == '__main__':
         res = parse_filtered(os.path.join(WORK_DIR, FILTERED_FILENAME))
 
         if res:
-            create_xlsx(res, os.path.join(WORK_DIR, RESULT_FILENAME))
+            create_xlsx(res)

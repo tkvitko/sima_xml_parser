@@ -1,13 +1,14 @@
+import datetime
 import os
 
 import xlsxwriter
 
 from parser.logs import logger
+from parser.constants import WORK_DIR
 
 
-def create_xlsx(source, full_path):
-    if os.path.exists(full_path):
-        os.remove(full_path)
+def create_xlsx(source):
+    full_path = os.path.join(WORK_DIR, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.xlsx')
 
     logger.info(f'Start creating xlsx {full_path}')
     try:
