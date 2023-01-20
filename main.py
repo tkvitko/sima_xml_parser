@@ -26,6 +26,8 @@ def check_if_price_changed_enough(product):
     try:
         old_price = old_products[product['_id']]
         if ((new_price / old_price) <= 1 * percent / 100) or ((new_price / old_price) >= 1 / (percent / 100)):
+            logger.info(
+                f'Product {product["_id"]} (new price {new_price}, old price {old_price}) has been added to notification')
             return True
         return False
     except KeyError:
@@ -44,12 +46,12 @@ if __name__ == '__main__':
         if new_products:
 
             old_products = all_products_from_cache()  # продукты в кеше
+            logger.info(f'Got {len(old_products)} from cache')
             changed_products = list()
 
             for product in new_products:
                 if check_if_price_changed_enough(product):  # если цена изменилась достаточно
                     changed_products.append(product['_id'])  # добавляем в список id на уведомление
-                    logger.info(f'Product {product["_id"]} has been added to renew from sima')
 
             bearer = get_sima_bearer()
             data = list()

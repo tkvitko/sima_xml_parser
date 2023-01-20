@@ -36,7 +36,8 @@ def download_xml(url, dir):
 def convert_xml(dir):
     try:
         logger.info(f'Start filtering data to {FILTERED_FILENAME}')
-        os.system(f"egrep '(<url>|<price>|<categoryId>)' {dir}/full_no_rs.xml > {dir}/{FILTERED_FILENAME}")
+        # os.system(f"egrep '(<url>|<price>|<categoryId>)' {dir}/full_no_rs.xml > {dir}/{FILTERED_FILENAME}")
+        os.system(f"egrep '(<url>|<price>)' {dir}/full_no_rs.xml > {dir}/{FILTERED_FILENAME}")
         logger.info(f'End filtering data to {FILTERED_FILENAME}')
 
         # logger.info(f'Start filtering data to {CATEGORIES_FILENAME}')
