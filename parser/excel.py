@@ -30,6 +30,8 @@ def create_xlsx(source):
                 for value in item.values():
                     if isinstance(value, float):
                         worksheet.write(row, column, value, num_fmt)
+                    elif isinstance(value, list) or isinstance(value, dict):
+                        worksheet.write(row, column, str(value))
                     else:
                         worksheet.write(row, column, value)
                     column += 1

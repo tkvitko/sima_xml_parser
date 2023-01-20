@@ -3,7 +3,7 @@ from parser.tools import create_cats_dict
 
 
 def parse_filtered(filename):
-    cats_dict = create_cats_dict()
+    # cats_dict = create_cats_dict()
     res = list()
 
     logger.info(f'Start parsing data from {filename}')
@@ -13,15 +13,15 @@ def parse_filtered(filename):
                 line = line.strip()
                 if '<url>' in line:
                     id = line.split('/')[-3]
-                    item = {'id': id}
+                    item = {'_id': id}
                 elif '<price>' in line:
                     price = line.split('>')[1].split('<')[0]
                     item['price'] = float(price)
-                elif '<categoryId>' in line:
-                    cat_id = line.split('>')[1].split('<')[0]
-                    item['cat'] = cats_dict[cat_id]
+                # elif '<categoryId>' in line:
+                #     cat_id = line.split('>')[1].split('<')[0]
+                #     item['cat'] = cats_dict[cat_id]
 
-                if 'cat' in item.keys():
+                if 'price' in item.keys():
                     res.append(item)
         logger.info(f'End parsing data from {filename}')
         return res

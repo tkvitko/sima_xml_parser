@@ -39,9 +39,9 @@ def convert_xml(dir):
         os.system(f"egrep '(<url>|<price>|<categoryId>)' {dir}/full_no_rs.xml > {dir}/{FILTERED_FILENAME}")
         logger.info(f'End filtering data to {FILTERED_FILENAME}')
 
-        logger.info(f'Start filtering data to {CATEGORIES_FILENAME}')
-        os.system(f"grep 'category id=' {dir}/full_no_rs.xml > {dir}/{CATEGORIES_FILENAME}")
-        logger.info(f'End filtering data to {CATEGORIES_FILENAME}')
+        # logger.info(f'Start filtering data to {CATEGORIES_FILENAME}')
+        # os.system(f"grep 'category id=' {dir}/full_no_rs.xml > {dir}/{CATEGORIES_FILENAME}")
+        # logger.info(f'End filtering data to {CATEGORIES_FILENAME}')
 
     except Exception as e:
         logger.error(f'Cant filter: {e} - {e.__class__.__name__}')
