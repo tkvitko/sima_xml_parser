@@ -26,7 +26,7 @@ def check_if_price_changed_enough(product):
     try:
         old_price = old_products[product['_id']]
 
-        # если нашли пробукт в кеше
+        # если нашли продукт в кеше
         if new_price != old_price:
             # если цена отличается, обновляем
             add_product_to_cache(product)
@@ -35,14 +35,14 @@ def check_if_price_changed_enough(product):
             # если цена отличается достаточно сильно, добавляем на нотификацию
             logger.info(
                 f'Product {product["_id"]} (new price {new_price}, old price {old_price}) has been added to notification')
-            return True
+            return old_price
 
         # если не достаточно сильно, не добавляем на нотификацию
-        return False
+        return None
     except KeyError:
         # если продукт новый, добавляем в кеш, не добавляем на нотификацию
         add_product_to_cache(product)
-        return False
+        return None
 
 
 if __name__ == '__main__':
@@ -60,15 +60,18 @@ if __name__ == '__main__':
             changed_products = list()
 
             for product in new_products:
-                if check_if_price_changed_enough(product):  # если цена изменилась достаточно
-                    changed_products.append(product['_id'])  # добавляем в список id на уведомление
+                old_price = check_if_price_changed_enough(product)
+                if old_price:  # если цена изменилась достаточно
+                    changed_products.append(
+                        {'id': product['_id'], 'old_price': old_price})  # добавляем в список id на уведомление
 
             bearer = get_sima_bearer()
             data = list()
-            for product_id in changed_products:
-                product_data = get_product_data_from_sima(product_id, bearer)  # получаем данные из sima по sid
+            for changed_product in changed_products:
+                product_data = get_product_data_from_sima(changed_product['id'], bearer)  # получаем данные из sima по sid
+                product_data['old_price'] = changed_product['old_price']
                 data.append(product_data)  # добавляем в данные для уведомления
-                logger.info(f'Product {product_id} has been added to excel')
+                logger.info(f'Product {changed_product["id"]} has been added to excel')
 
             logger.info(f'{len(new_products)} has been added/updated in cache')
             if data:
