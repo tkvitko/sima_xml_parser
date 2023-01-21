@@ -10,6 +10,7 @@ from parser.tools import *
 
 def get_product_data_from_sima(product_id, bearer):
     product_data = get_product_by_article(product_id, bearer)
+    product_data.pop('isbn', None)
     product_data['country_id'] = get_sima_object_name_by_id(product_data['country_id'],
                                                             'country', bearer)
     product_data['trademark_id'] = get_sima_object_name_by_id(product_data['trademark_id'],
@@ -31,7 +32,8 @@ def check_if_price_changed_enough(product):
             # если цена отличается, обновляем
             add_product_to_cache(product)
 
-        if ((new_price / old_price) <= 1 * percent / 100) or ((new_price / old_price) >= 1 / (percent / 100)):
+        # if ((new_price / old_price) <= 1 * percent / 100) or ((new_price / old_price) >= 1 / (percent / 100)):
+        if (new_price / old_price) <= 1 * percent / 100:
             # если цена отличается достаточно сильно, добавляем на нотификацию
             logger.info(
                 f'Product {product["_id"]} (new price {new_price}, old price {old_price}) has been added to notification')
