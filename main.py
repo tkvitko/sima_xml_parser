@@ -38,6 +38,9 @@ def check_if_price_changed_enough(product):
             logger.info(
                 f'Product {product["_id"]} (new price {new_price}, old price {old_price}) has been added to notification')
             return old_price
+        else:
+            logger.info(
+                f'Product {product["_id"]} (new price {new_price}, old price {old_price}) dont need to notify')
 
         # если не достаточно сильно, не добавляем на нотификацию
         return None
@@ -67,10 +70,12 @@ if __name__ == '__main__':
                     changed_products.append(
                         {'id': product['_id'], 'old_price': old_price})  # добавляем в список id на уведомление
 
+            logger.info(f'We got {len(changed_products)} products with enough changed price to add to excel')
             bearer = get_sima_bearer()
             data = list()
             for changed_product in changed_products:
-                product_data = get_product_data_from_sima(changed_product['id'], bearer)  # получаем данные из sima по sid
+                product_data = get_product_data_from_sima(changed_product['id'],
+                                                          bearer)  # получаем данные из sima по sid
                 product_data['old_price'] = changed_product['old_price']
                 data.append(product_data)  # добавляем в данные для уведомления
                 logger.info(f'Product {changed_product["id"]} has been added to excel')
