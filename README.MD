@@ -1,18 +1,18 @@
-<h2>Sima XML parser</h2>
+#Sima XML parser
 
-<h3>Installation</h3>
+##Installation
 `pip install -r requirements.txt`
 
-<h3>Start</h3>
+##Start
 `python main.py`
 
-<h3>Functionality</h3>
+##Functionality
 This service:
 - downloads a large xml file from the source
 - performs preprocessing using Linux egrep (optimal option in terms of resources)
 - saves results to cache
 - writes the results that are not in the cache at the time of launch to the output XLS file
 
-<h3>Stack</h3>
+##Stack
 - XlsxWriter
 - pymongo (for cache)
